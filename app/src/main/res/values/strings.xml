@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Image Map Tester</string>
+    <string name="next_text">Next</string>
+    <string name="add_excel_file_title">Add excel file</string>
+    <string name="excel_file_type_msg">Supported excel file type .xlsx</string>
+    <string name="add_image_file_title">Add image file</string>
+    <string name="image_file_type_msg">Supported image file type .png</string>
+    <string name="choose">Choose</string>
+    <string name="no_file_selected_text">No file selected</string>
+</resources>

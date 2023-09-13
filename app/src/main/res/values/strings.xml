@@ -7,4 +7,6 @@
     <string name="image_file_type_msg">Supported image file type .png</string>
     <string name="choose">Choose</string>
     <string name="no_file_selected_text">No file selected</string>
+    <string name="dummy_page_no_1">Page No: 1</string>
+    <string name="image">Image</string>
 </resources>

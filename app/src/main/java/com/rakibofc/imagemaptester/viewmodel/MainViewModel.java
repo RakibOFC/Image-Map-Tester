@@ -50,26 +50,24 @@ public class MainViewModel extends AndroidViewModel {
                 // Clear all existing data from the database
                 databaseHelper.clearDatabase();
 
-                for (Row row : sheet) {
+                // Assuming that the sheet has rows and the first row contains column names, so start with 1
+                for (int rowIndex = 1; rowIndex <= sheet.getLastRowNum(); rowIndex++) {
 
-                    try {
-                        int glyphId = (int) row.getCell(0).getNumericCellValue();
-                        int pageNumber = (int) row.getCell(1).getNumericCellValue();
-                        int lineNumber = (int) row.getCell(2).getNumericCellValue();
-                        int suraNumber = (int) row.getCell(3).getNumericCellValue();
-                        int ayahNumber = (int) row.getCell(4).getNumericCellValue();
-                        int position = (int) row.getCell(5).getNumericCellValue();
-                        float minX = (float) row.getCell(6).getNumericCellValue();
-                        float maxX = (float) row.getCell(7).getNumericCellValue();
-                        float minY = (float) row.getCell(8).getNumericCellValue();
-                        float maxY = (float) row.getCell(9).getNumericCellValue();
+                    Row row = sheet.getRow(rowIndex);
 
-                        // Insert the cell values into your SQLite database
-                        databaseHelper.insertGlyphData(glyphId, pageNumber, lineNumber, suraNumber, ayahNumber, position, minX, maxX, minY, maxY);
+                    int glyphId = (int) row.getCell(0).getNumericCellValue();
+                    int pageNumber = (int) row.getCell(1).getNumericCellValue();
+                    int lineNumber = (int) row.getCell(2).getNumericCellValue();
+                    int suraNumber = (int) row.getCell(3).getNumericCellValue();
+                    int ayahNumber = (int) row.getCell(4).getNumericCellValue();
+                    int position = (int) row.getCell(5).getNumericCellValue();
+                    float minX = (float) row.getCell(6).getNumericCellValue();
+                    float maxX = (float) row.getCell(7).getNumericCellValue();
+                    float minY = (float) row.getCell(8).getNumericCellValue();
+                    float maxY = (float) row.getCell(9).getNumericCellValue();
 
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    // Insert the cell values into your SQLite database
+                    databaseHelper.insertGlyphData(glyphId, pageNumber, lineNumber, suraNumber, ayahNumber, position, minX, maxX, minY, maxY);
                 }
                 workbook.close();
 

@@ -16,15 +16,13 @@ import android.widget.Toast;
 import com.rakibofc.imagemaptester.R;
 import com.rakibofc.imagemaptester.databinding.ActivityMainBinding;
 import com.rakibofc.imagemaptester.helper.ExcelConversionTask;
-import com.rakibofc.imagemaptester.helper.Loading;
-import com.rakibofc.imagemaptester.helper.LoadingStatus;
 import com.rakibofc.imagemaptester.model.ImageData;
 import com.rakibofc.imagemaptester.viewmodel.MainViewModel;
 
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class MainActivity extends AppCompatActivity implements Loading {
+public class MainActivity extends AppCompatActivity {
 
     private MainViewModel viewModel;
     private ImageData imageData;
@@ -86,17 +84,6 @@ public class MainActivity extends AppCompatActivity implements Loading {
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("image/png");
         pngPickerLauncher.launch(intent);
-    }
-
-    @Override
-    public void onLoad(LoadingStatus status) {
-
-        if (status == LoadingStatus.START_LOADING) {
-            showDialogLoading();
-
-        } else if (status == LoadingStatus.END_LOADING) {
-            dismissDialogLoading();
-        }
     }
 
     public void showDialogLoading() {

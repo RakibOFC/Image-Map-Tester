@@ -48,7 +48,7 @@ public class GlyphsDatabaseHelper extends SQLiteOpenHelper {
     }
 
     public void insertGlyphData(int glyphId, int pageNumber, int lineNumber, int suraNumber, int ayahNumber,
-                                int position, double minX, double maxX, double minY, double maxY) {
+                                int position, float minX, float maxX, float minY, float maxY) {
 
         SQLiteDatabase db = getWritableDatabase();
 

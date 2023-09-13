@@ -1,15 +1,13 @@
-package com.rakibofc.imagemaptester;
+package com.rakibofc.imagemaptester.viewmodel;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
+import android.app.Application;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Bundle;
 
-import com.rakibofc.imagemaptester.databinding.ActivityMainBinding;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.AndroidViewModel;
+
 import com.rakibofc.imagemaptester.helper.GlyphsDatabaseHelper;
 
 import org.apache.poi.ss.usermodel.Row;
@@ -20,43 +18,15 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class MainActivity extends AppCompatActivity {
+public class MainViewModel extends AndroidViewModel {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-
-        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-
-        binding.btnChooseExcel.setOnClickListener(v -> chooseExcelFile());
-        binding.btnChooseImage.setOnClickListener(v -> {});
+    public MainViewModel(@NonNull Application application) {
+        super(application);
     }
 
-    private void chooseExcelFile() {
+    public void convertExcelToSqlite(Intent data) {
 
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-        filePickerLauncher.launch(intent);
-    }
-
-    private final ActivityResultLauncher<Intent> filePickerLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-
-            result -> {
-
-                if (result.getResultCode() == Activity.RESULT_OK) {
-                    Intent data = result.getData();
-
-                    // Run thread to avoid UI block
-                    new Thread(() -> operation(data)).start();
-                }
-            }
-    );
-
-    private void operation(Intent data) {
+        Context context = getApplication().getApplicationContext();
 
         if (data != null) {
 
@@ -67,14 +37,14 @@ public class MainActivity extends AppCompatActivity {
 
                 // Get file from user file explorer
                 assert selectedFileUri != null;
-                InputStream excelFile = getContentResolver().openInputStream(selectedFileUri);
+                InputStream excelFile = context.getContentResolver().openInputStream(selectedFileUri);
 
                 // Now, you can use a library like Apache POI to read the Excel data
                 assert excelFile != null;
                 Workbook workbook = new XSSFWorkbook(excelFile);
 
                 // Initialize your database helper
-                GlyphsDatabaseHelper databaseHelper = new GlyphsDatabaseHelper(this);
+                GlyphsDatabaseHelper databaseHelper = new GlyphsDatabaseHelper(context);
                 Sheet sheet = workbook.getSheetAt(0);
 
                 // Clear all existing data from the database

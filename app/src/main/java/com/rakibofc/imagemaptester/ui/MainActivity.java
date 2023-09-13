@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import com.rakibofc.imagemaptester.databinding.ActivityMainBinding;
@@ -25,8 +26,12 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(binding.getRoot());
 
+        // Get file name from view model and set text in textview
+        viewModel.getExcelFileNameLiveData().observe(this, binding.tvExcelFileName::setText);
+
         binding.btnChooseExcel.setOnClickListener(v -> chooseExcelFile());
-        binding.btnChooseImage.setOnClickListener(v -> {});
+        binding.btnChooseImage.setOnClickListener(v -> {
+        });
     }
 
     private void chooseExcelFile() {
@@ -45,8 +50,20 @@ public class MainActivity extends AppCompatActivity {
                 if (result.getResultCode() == Activity.RESULT_OK) {
                     Intent data = result.getData();
 
-                    // Run thread to avoid UI block
-                    new Thread(() -> viewModel.convertExcelToSqlite(data)).start();
+                    if (data != null) {
+
+                        // Get URI from data
+                        Uri selectedFileUri = data.getData();
+
+                        if (selectedFileUri != null) {
+
+                            // Load file name
+                            viewModel.loadExcelFileName(selectedFileUri);
+
+                            // Run thread to avoid UI block and convert data
+                            new Thread(() -> viewModel.convertExcelToSqlite(selectedFileUri)).start();
+                        }
+                    }
                 }
             }
     );

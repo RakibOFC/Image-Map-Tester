@@ -40,7 +40,7 @@
             android:layout_marginStart="30dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="30dp"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="100dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -131,17 +131,17 @@
                 android:padding="10dp"
                 android:visibility="gone">
 
+                <TextView
+                    android:id="@+id/tv_page_no_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/dummy_page_no_1" />
+
                 <ImageView
                     android:id="@+id/iv_preview"
                     android:layout_width="wrap_content"
                     android:layout_height="300dp"
                     android:contentDescription="@string/image" />
-
-                <TextView
-                    android:id="@+id/tv_page_no"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/dummy_page_no_1" />
 
             </LinearLayout>
 
@@ -150,11 +150,11 @@
     </androidx.core.widget.NestedScrollView>
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_next"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="30dp"
-        android:layout_marginBottom="20dp"
         android:maxWidth="400dp"
         android:padding="15dp"
         android:text="@string/next_text"

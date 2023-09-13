@@ -11,6 +11,7 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.MutableLiveData;
 
 import com.rakibofc.imagemaptester.helper.GlyphsDatabaseHelper;
+import com.rakibofc.imagemaptester.model.ImageData;
 
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -24,18 +25,32 @@ import java.util.Objects;
 public class MainViewModel extends AndroidViewModel {
 
     private final MutableLiveData<String> excelFileNameLiveData;
+    private final MutableLiveData<ImageData> pngNameLiveData;
 
     public MainViewModel(@NonNull Application application) {
         super(application);
         excelFileNameLiveData = new MutableLiveData<>();
+        pngNameLiveData = new MutableLiveData<>();
     }
 
     public MutableLiveData<String> getExcelFileNameLiveData() {
         return excelFileNameLiveData;
     }
 
+    public MutableLiveData<ImageData> getPngNameLiveData() {
+        return pngNameLiveData;
+    }
+
     public void loadExcelFileName(Uri fileUri) {
         excelFileNameLiveData.setValue(getFileNameFromUri(fileUri));
+    }
+
+    public void loadPngFileName(Uri fileUri) {
+        pngNameLiveData.setValue(loadImageData(fileUri));
+    }
+
+    private ImageData loadImageData(Uri fileUri) {
+        return new ImageData(getFileNameFromUri(fileUri), fileUri, "Title...");
     }
 
     public void convertExcelToSqlite(Uri selectedFileUri) {

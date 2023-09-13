@@ -1,6 +1,7 @@
 package com.rakibofc.imagemaptester.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -39,11 +40,17 @@ public class ImageTesterActivity extends AppCompatActivity {
 
             binding.imageView.setOnRectClickListener((v, surahNumber, ayahNumber) -> {
 
-                // Click event
-                // showAyahInfoBottomSheet(fragmentManager, surahNumber, ayahNumber - 1);
+                // Show bottom sheet dialog fragment
+                showAyahInfoBottomSheet(getSupportFragmentManager(), pageNo, surahNumber, ayahNumber);
             });
         }
 
         binding.mToolbar.setNavigationOnClickListener(v -> onBackPressed());
+    }
+
+    private void showAyahInfoBottomSheet(FragmentManager fragmentManager, int pageNo, int surahNumber, int ayahNumber) {
+
+        AyahInfoFragment fragment = AyahInfoFragment.newInstance(pageNo, surahNumber, ayahNumber);
+        fragment.show(fragmentManager, AyahInfoFragment.TAG);
     }
 }

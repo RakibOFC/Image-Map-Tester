@@ -155,7 +155,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_margin="30dp"
-        android:maxWidth="400dp"
         android:padding="15dp"
         android:text="@string/next_text"
         app:cornerRadius="8dp"

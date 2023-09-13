@@ -11,4 +11,10 @@
     <string name="page_no_d">Page No: %d</string>
     <string name="image">Image</string>
     <string name="invalid_image_file_text">Invalid image file.</string>
+    <string name="dummy_surah_no_1">Surah No: 1</string>
+    <string name="surah_no_d">Surah No: %d</string>
+    <string name="dummy_ayat_no_1">Ayat No: 1</string>
+    <string name="ayat_no_d">Ayat No: %d</string>
+    <string name="ok_text">OK</string>
+    <string name="note_text"><b>Note:</b> If the page number, surah number, and ayat number do not match the values in the image, please double-check the values in the Excel sheet.</string>
 </resources>

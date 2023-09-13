@@ -98,7 +98,7 @@ public class MainViewModel extends AndroidViewModel {
                     // Insert the cell values into your SQLite database
                     databaseHelper.insertGlyphData(glyphId, pageNumber, lineNumber, suraNumber, ayahNumber, position, minX, maxX, minY, maxY);
 
-                } catch (NullPointerException e) {
+                } catch (IllegalStateException | NullPointerException e) {
                     e.printStackTrace();
                 }
             }

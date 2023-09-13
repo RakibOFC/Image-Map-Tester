@@ -21,6 +21,8 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MainViewModel extends AndroidViewModel {
 
@@ -50,7 +52,9 @@ public class MainViewModel extends AndroidViewModel {
     }
 
     private ImageData loadImageData(Uri fileUri) {
-        return new ImageData(getFileNameFromUri(fileUri), fileUri, "Title...");
+
+        String fileName = getFileNameFromUri(fileUri);
+        return new ImageData(fileName, fileUri, extractPageNumber(fileName));
     }
 
     public void convertExcelToSqlite(Uri selectedFileUri) {
@@ -125,5 +129,18 @@ public class MainViewModel extends AndroidViewModel {
             result = uri.getLastPathSegment();
         }
         return result;
+    }
+
+    private int extractPageNumber(String filename) {
+
+        Pattern pattern = Pattern.compile("\\d+");
+        Matcher matcher = pattern.matcher(filename);
+
+        if (matcher.find()) {
+            String numberStr = matcher.group();
+            return Integer.parseInt(numberStr);
+        } else {
+            return -1;
+        }
     }
 }

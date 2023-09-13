@@ -1,9 +1,16 @@
 package com.rakibofc.imagemaptester.helper;
 
+import android.annotation.SuppressLint;
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.rakibofc.imagemaptester.model.GlyphInfo;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class GlyphsDatabaseHelper extends SQLiteOpenHelper {
     private static final String GLYPHS_DB_NAME = "glyphs.db";
@@ -74,6 +81,43 @@ public class GlyphsDatabaseHelper extends SQLiteOpenHelper {
             // Insertion failed
             // Handle the error appropriately
         }
+    }
+
+    @SuppressLint("Range")
+    public List<GlyphInfo> getGlyphsByPageAndAyah(int pageNumber) {
+
+        List<GlyphInfo> glyphList = new ArrayList<>();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_PAGE_NUMBER + " = ?";
+
+        String[] selectionArgs = {String.valueOf(pageNumber)};
+
+        Cursor cursor = db.rawQuery(query, selectionArgs);
+
+        if (cursor.moveToFirst()) {
+
+            do {
+                GlyphInfo glyphInfo = new GlyphInfo();
+                glyphInfo.glyphId = cursor.getInt(cursor.getColumnIndex(COL_GLYPH_ID));
+                glyphInfo.pageNumber = cursor.getInt(cursor.getColumnIndex(COL_PAGE_NUMBER));
+                glyphInfo.lineNumber = cursor.getInt(cursor.getColumnIndex(COL_LINE_NUMBER));
+                glyphInfo.suraNumber = cursor.getInt(cursor.getColumnIndex(COL_SURA_NUMBER));
+                glyphInfo.ayahNumber = cursor.getInt(cursor.getColumnIndex(COL_AYAH_NUMBER));
+                glyphInfo.position = cursor.getInt(cursor.getColumnIndex(COL_POSITION));
+                glyphInfo.minX = cursor.getFloat(cursor.getColumnIndex(COL_MIN_X));
+                glyphInfo.maxX = cursor.getFloat(cursor.getColumnIndex(COL_MAX_X));
+                glyphInfo.minY = cursor.getFloat(cursor.getColumnIndex(COL_MIN_Y));
+                glyphInfo.maxY = cursor.getFloat(cursor.getColumnIndex(COL_MAX_Y));
+                glyphList.add(glyphInfo);
+
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
+
+        return glyphList;
     }
 
     public void clearDatabase() {

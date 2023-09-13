@@ -8,5 +8,7 @@
     <string name="choose">Choose</string>
     <string name="no_file_selected_text">No file selected</string>
     <string name="dummy_page_no_1">Page No: 1</string>
+    <string name="page_no_d">Page No: %d</string>
     <string name="image">Image</string>
+    <string name="invalid_image_file_text">Invalid image file.</string>
 </resources>

@@ -4,13 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.rakibofc.imagemaptester.R;
 import com.rakibofc.imagemaptester.databinding.ActivityImageTesterBinding;
 import com.rakibofc.imagemaptester.helper.GlyphsDatabaseHelper;
 import com.rakibofc.imagemaptester.model.GlyphInfo;
-import com.rakibofc.imagemaptester.model.ImageData;
 
 import java.util.List;
 
@@ -23,8 +21,12 @@ public class ImageTesterActivity extends AppCompatActivity {
         ActivityImageTesterBinding binding = ActivityImageTesterBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        int pageNo = getIntent().getIntExtra("imagePageNo", 1);
+        int pageNo = getIntent().getIntExtra("imagePageNo", -1);
         Uri imageUri = getIntent().getData();
+
+        if (pageNo == -1) {
+            onBackPressed();
+        }
 
         binding.imageView.setImageURI(imageUri);
 

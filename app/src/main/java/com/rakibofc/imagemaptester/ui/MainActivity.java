@@ -10,13 +10,17 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
+import com.rakibofc.imagemaptester.R;
 import com.rakibofc.imagemaptester.databinding.ActivityMainBinding;
+import com.rakibofc.imagemaptester.model.ImageData;
 import com.rakibofc.imagemaptester.viewmodel.MainViewModel;
 
 public class MainActivity extends AppCompatActivity {
 
     private MainViewModel viewModel;
+    private ImageData imageData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,15 +35,33 @@ public class MainActivity extends AppCompatActivity {
         viewModel.getExcelFileNameLiveData().observe(this, binding.tvExcelFileName::setText);
         viewModel.getPngNameLiveData().observe(this, imageData -> {
 
+            this.imageData = imageData;
+            Uri imageUri = imageData.getImageUri();
+
             binding.tvPngFileName.setText(imageData.getImageFileName());
-            binding.ivPreview.setImageURI(imageData.getImageUri());
-            binding.tvPageNoTitle.setText(imageData.getImageTitle());
+            binding.ivPreview.setImageURI(imageUri);
+            binding.tvPageNoTitle.setText(String.format(getString(R.string.page_no_d), imageData.getPageNo()));
 
             binding.imagePreview.setVisibility(View.VISIBLE);
         });
 
         binding.btnChooseExcel.setOnClickListener(v -> chooseExcelFile());
         binding.btnChooseImage.setOnClickListener(v -> choosePngFile());
+
+        binding.btnNext.setOnClickListener(v -> {
+
+            if (imageData != null) {
+
+                Intent intent = new Intent(getApplicationContext(), ImageTesterActivity.class);
+
+                // Put the imageData as an extra in the Intent
+                intent.putExtra("imagePageNo", imageData.getPageNo());
+                intent.setData(imageData.getImageUri());
+
+                startActivity(intent);
+            } else
+                Toast.makeText(this, R.string.invalid_image_file_text, Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void chooseExcelFile() {

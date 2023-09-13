@@ -2,6 +2,7 @@ package com.rakibofc.imagemaptester.ui;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -14,13 +15,20 @@ import android.widget.Toast;
 
 import com.rakibofc.imagemaptester.R;
 import com.rakibofc.imagemaptester.databinding.ActivityMainBinding;
+import com.rakibofc.imagemaptester.helper.ExcelConversionTask;
+import com.rakibofc.imagemaptester.helper.Loading;
+import com.rakibofc.imagemaptester.helper.LoadingStatus;
 import com.rakibofc.imagemaptester.model.ImageData;
 import com.rakibofc.imagemaptester.viewmodel.MainViewModel;
 
-public class MainActivity extends AppCompatActivity {
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+
+public class MainActivity extends AppCompatActivity implements Loading {
 
     private MainViewModel viewModel;
     private ImageData imageData;
+    private AlertDialog alertDialogLoading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +88,37 @@ public class MainActivity extends AppCompatActivity {
         pngPickerLauncher.launch(intent);
     }
 
+    @Override
+    public void onLoad(LoadingStatus status) {
+
+        if (status == LoadingStatus.START_LOADING) {
+            showDialogLoading();
+
+        } else if (status == LoadingStatus.END_LOADING) {
+            dismissDialogLoading();
+        }
+    }
+
+    public void showDialogLoading() {
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_loading, null);
+
+        alertDialogBuilder.setView(dialogView);
+        alertDialogBuilder.setCancelable(false);
+
+        alertDialogLoading = alertDialogBuilder.create();
+        alertDialogLoading.show();
+    }
+
+    public void dismissDialogLoading() {
+
+        if (alertDialogLoading != null) {
+            // After completing the registration process or any error handling, dismiss the loading dialog.
+            alertDialogLoading.dismiss();
+        }
+    }
+
     private final ActivityResultLauncher<Intent> filePickerLauncher = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
 
@@ -95,11 +134,18 @@ public class MainActivity extends AppCompatActivity {
 
                         if (selectedFileUri != null) {
 
+                            // Show the loading dialog
+                            showDialogLoading();
+
                             // Load file name
                             viewModel.loadExcelFileName(selectedFileUri);
 
-                            // Run thread to avoid UI block and convert data
-                            new Thread(() -> viewModel.convertExcelToSqlite(selectedFileUri)).start();
+                            // Create an Executor (e.g., ThreadPoolExecutor or Executors.newSingleThreadExecutor())
+                            Executor executor = Executors.newSingleThreadExecutor();
+
+                            // Create and submit the task
+                            ExcelConversionTask conversionTask = new ExcelConversionTask(viewModel, selectedFileUri, this);
+                            executor.execute(conversionTask);
                         }
                     }
                 }

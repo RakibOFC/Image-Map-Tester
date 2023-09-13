@@ -6,12 +6,12 @@ public class ImageData {
 
     private final String imageFileName;
     private final Uri imageUri;
-    private final String imageTitle;
+    private final int pageNo;
 
-    public ImageData(String imageFileName, Uri imageUri, String imageTitle) {
+    public ImageData(String imageFileName, Uri imageUri, int pageNo) {
         this.imageFileName = imageFileName;
         this.imageUri = imageUri;
-        this.imageTitle = imageTitle;
+        this.pageNo = pageNo;
     }
 
     public String getImageFileName() {
@@ -22,7 +22,7 @@ public class ImageData {
         return imageUri;
     }
 
-    public String getImageTitle() {
-        return imageTitle;
+    public int getPageNo() {
+        return pageNo;
     }
 }

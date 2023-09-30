@@ -48,14 +48,21 @@ public class GlyphsDatabaseHelper extends SQLiteOpenHelper {
                 COL_MAX_Y + " REAL)";
         db.execSQL(createTableSQL);
     }
+    // Have problem for image mapping page 5 and 6. Page 7 perfectly working. Use this app to test image mapping.
+    // Have issues with image mapping on pages 5 and 6, but page 7 is perfectly working.
+
+    // Use this app to test image mapping.
+
+    // Have issues with image mapping on pages 5 and 6, but page 7 is working correctly.
+    // Please don't rearrange the Excel columns next time.
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Handle database schema upgrades here if needed
     }
 
-    public void insertGlyphData(int glyphId, int pageNumber, int lineNumber, int suraNumber, int ayahNumber,
-                                int position, float minX, float maxX, float minY, float maxY) {
+    public void insertGlyphData(int glyphId, int suraNumber, int pageNumber, int ayahNumber, int lineNumber,
+                                int position, float minX, float minY, float maxX, float maxY) {
 
         SQLiteDatabase db = getWritableDatabase();
 

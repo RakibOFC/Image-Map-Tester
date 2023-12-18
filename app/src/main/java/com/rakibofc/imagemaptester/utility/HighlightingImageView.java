@@ -28,6 +28,7 @@ public class HighlightingImageView extends AppCompatImageView {
     private float lastTouchX, lastTouchY;
     private OnRectClickListener clickListener;
     private boolean isRectFScaled = false;
+    private int surahNo = 0;
     private int ayahNo = 0;
 
     public HighlightingImageView(@NonNull Context context) {
@@ -59,7 +60,8 @@ public class HighlightingImageView extends AppCompatImageView {
         this.glyphInfoList = glyphInfoList;
     }
 
-    public void setTargetAyahNo(int targetAyahNo) {
+    public void setTargetAyahNo(int targetSurahNo, int targetAyahNo) {
+        surahNo = targetSurahNo;
         ayahNo = targetAyahNo;
         highlightPaint.setAlpha(60);
         invalidate();
@@ -80,8 +82,9 @@ public class HighlightingImageView extends AppCompatImageView {
                 GlyphInfo glyphInfo = glyphInfoList.get(i);
                 if (getRectF(glyphInfo.minX, glyphInfo.maxX, glyphInfo.minY, glyphInfo.maxY).contains(x, y)) {
 
+                    surahNo = glyphInfo.suraNumber;
                     ayahNo = glyphInfo.ayahNumber;
-                    clickListener.onRectClick(v, glyphInfo.suraNumber, ayahNo);
+                    clickListener.onRectClick(v, surahNo, ayahNo);
                 }
             }
         }
@@ -145,7 +148,7 @@ public class HighlightingImageView extends AppCompatImageView {
 
                 GlyphInfo glyphInfo = glyphInfoList.get(i);
 
-                if (ayahNo == glyphInfo.ayahNumber) {
+                if (surahNo == glyphInfo.suraNumber && ayahNo == glyphInfo.ayahNumber) {
                     canvas.drawRect(getRectF(glyphInfo.minX, glyphInfo.maxX, glyphInfo.minY, glyphInfo.maxY), highlightPaint);
                 }
             }

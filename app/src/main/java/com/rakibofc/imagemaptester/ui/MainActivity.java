@@ -70,6 +70,22 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Launches an Intent to choose an Excel file using a file picker.
+     * This method initiates the process of selecting an Excel file by launching an Intent
+     * with the specified document type for spreadsheet files. The chosen file will be made
+     * available through the provided file picker launcher.
+     *
+     * <p>The method uses the {@link Intent#ACTION_OPEN_DOCUMENT} action, indicating that the
+     * user should pick one or more existing documents, and sets the document type to
+     * "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" to filter for Excel files.
+     * The file picker launcher is then used to execute the Intent and handle the result.
+     * </p>
+     *
+     * <p>This method assumes the existence of a file picker launcher named {@code filePickerLauncher}.
+     * Ensure that the launcher is initialized before calling this method.
+     * </p>
+     */
     private void chooseExcelFile() {
 
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);

@@ -85,6 +85,18 @@ public class MainViewModel extends AndroidViewModel {
 
                 try {
                     int glyphId = (int) row.getCell(0).getNumericCellValue();
+                    int pageNumber = (int) row.getCell(1).getNumericCellValue();
+                    int lineNumber = (int) row.getCell(3).getNumericCellValue();
+                    int suraNumber = (int) row.getCell(4).getNumericCellValue();
+                    int ayahNumber = (int) row.getCell(5).getNumericCellValue();
+                    int position = (int) row.getCell(6).getNumericCellValue();
+                    float minX = (float) row.getCell(7).getNumericCellValue();
+                    float minY = (float) row.getCell(8).getNumericCellValue();
+                    float maxX = (float) row.getCell(9).getNumericCellValue();
+                    float maxY = (float) row.getCell(10).getNumericCellValue();
+
+                    /*
+                    int glyphId = (int) row.getCell(0).getNumericCellValue();
                     int suraNumber = (int) row.getCell(1).getNumericCellValue();
                     int pageNumber = (int) row.getCell(2).getNumericCellValue();
                     int ayahNumber = (int) row.getCell(3).getNumericCellValue();
@@ -94,6 +106,8 @@ public class MainViewModel extends AndroidViewModel {
                     float minY = (float) row.getCell(7).getNumericCellValue();
                     float maxX = (float) row.getCell(8).getNumericCellValue();
                     float maxY = (float) row.getCell(9).getNumericCellValue();
+                    *
+                    * */
 
                     // Insert the cell values into your SQLite database
                     databaseHelper.insertGlyphData(glyphId, suraNumber, pageNumber, ayahNumber, lineNumber, position, minX, minY, maxX, maxY);
